@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAX CNC Innovation Campus — 7100 S Cottage Grove</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --steel: #2a2d2e;
+  --concrete: #e8e2d8;
+  --warm: #c9814a;
+  --warm-light: #e6a96e;
+  --green: #5a7a4a;
+  --green-light: #8aad6e;
+  --dark: #111213;
+  --cream: #f5f0e8;
+  --text: #1a1a1a;
+  --text-light: #6b6560;
+  --radius: 3px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--dark);
+  color: var(--cream);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAVIGATION ─── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+nav.scrolled {
+  background: rgba(17,18,19,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.6);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--warm); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(17,18,19,0.95) 0%,
+    rgba(17,18,19,0.6) 35%,
+    rgba(17,18,19,0.15) 65%,
+    rgba(17,18,19,0.3) 100%
+  );
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 60px 80px;
+  max-width: 1400px;
+  width: 100%;
+}
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.3s forwards;
+}
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1.0;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--warm-light);
+}
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(245,240,232,0.7);
+  max-width: 600px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.7s forwards;
+}
+.hero-address {
+  margin-top: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: rgba(245,240,232,0.4);
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.9s forwards;
+}
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1s 1.5s forwards;
+}
+.scroll-indicator span {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.3);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--warm), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ─── SECTION LAYOUTS ─── */
+.section {
+  padding: 120px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-dark { background: var(--dark); }
+.section-warm { background: #1a1714; }
+.section-concrete {
+  background: var(--cream);
+  color: var(--text);
+}
+
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-bottom: 16px;
+}
+.section-concrete .section-tag { color: var(--green); }
+
+.section-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(36px, 4.5vw, 64px);
+  line-height: 1.1;
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+.section-concrete .section-heading { color: var(--text); }
+
+.section-body {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(245,240,232,0.65);
+  max-width: 640px;
+}
+.section-concrete .section-body { color: var(--text-light); }
+
+/* ─── VISION SECTION ─── */
+.vision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 140px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.vision-text { max-width: 560px; }
+.vision-image {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.vision-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.vision-image:hover img { transform: scale(1.03); }
+.vision-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(201,129,74,0.15);
+  border-radius: var(--radius);
+  pointer-events: none;
+}
+
+/* ─── FULL WIDTH IMAGE ─── */
+.full-image {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.full-image img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  display: block;
+}
+.full-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(17,18,19,0.7) 0%, transparent 50%, rgba(17,18,19,0.7) 100%);
+}
+.full-image-caption {
+  position: absolute;
+  bottom: 30px;
+  left: 60px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.5);
+}
+
+/* ─── PROGRAM GRID ─── */
+.program-section {
+  background: var(--cream);
+  padding: 140px 60px;
+}
+.program-header {
+  max-width: 1400px;
+  margin: 0 auto 80px;
+}
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.program-card {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  cursor: default;
+}
+.program-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.program-card:hover img { transform: scale(1.06); }
+.program-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(17,18,19,0.92) 0%, rgba(17,18,19,0.2) 55%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px;
+}
+.program-card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--warm);
+  margin-bottom: 10px;
+}
+.program-card-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+.program-card-desc {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(245,240,232,0.6);
+}
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  background: var(--steel);
+  padding: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px;
+  color: var(--warm-light);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.45);
+  margin-top: 8px;
+}
+
+/* ─── SPLIT SECTIONS ─── */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+}
+.split-image {
+  position: relative;
+  overflow: hidden;
+}
+.split-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.split-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 80px;
+}
+.split-content.bg-dark { background: var(--dark); }
+.split-content.bg-warm { background: #1c1915; }
+
+.split-list {
+  list-style: none;
+  margin-top: 32px;
+}
+.split-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(245,240,232,0.6);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.split-list li::before {
+  content: '→';
+  color: var(--warm);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ─── IMAGE PAIR ─── */
+.image-pair {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4px;
+  max-width: 100%;
+}
+.image-pair img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── IMPACT SECTION ─── */
+.impact-section {
+  background: var(--dark);
+  padding: 140px 60px;
+}
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  max-width: 1400px;
+  margin: 60px auto 0;
+}
+.impact-item {
+  border-top: 2px solid var(--warm);
+  padding-top: 24px;
+}
+.impact-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: var(--cream);
+}
+.impact-desc {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(245,240,232,0.5);
+}
+
+/* ─── BUDGET TABLE ─── */
+.budget-section {
+  background: #1a1714;
+  padding: 120px 60px;
+}
+.budget-table-wrap {
+  max-width: 900px;
+  margin: 48px auto 0;
+}
+.budget-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.budget-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.35);
+  text-align: left;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(245,240,232,0.1);
+}
+.budget-table td {
+  font-size: 15px;
+  font-weight: 300;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(245,240,232,0.06);
+  color: rgba(245,240,232,0.6);
+}
+.budget-table td:last-child {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--warm-light);
+}
+.budget-table .total-row td {
+  border-top: 2px solid var(--warm);
+  border-bottom: none;
+  font-weight: 500;
+  color: var(--cream);
+  padding-top: 20px;
+}
+.budget-table .total-row td:last-child {
+  color: var(--warm-light);
+  font-size: 16px;
+}
+
+/* ─── FUNDING STACK ─── */
+.funding-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 48px auto 0;
+}
+.funding-card {
+  background: rgba(245,240,232,0.03);
+  border: 1px solid rgba(245,240,232,0.06);
+  border-radius: 4px;
+  padding: 28px;
+}
+.funding-card-amount {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  color: var(--warm-light);
+}
+.funding-card-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--cream);
+  margin-top: 4px;
+}
+.funding-card-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(245,240,232,0.4);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ─── TIMELINE ─── */
+.timeline-section {
+  background: var(--cream);
+  padding: 120px 60px;
+}
+.timeline {
+  max-width: 800px;
+  margin: 48px auto 0;
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--green);
+  opacity: 0.2;
+}
+.timeline-item {
+  position: relative;
+  padding-left: 60px;
+  padding-bottom: 40px;
+}
+.timeline-dot {
+  position: absolute;
+  left: 13px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.timeline-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+.timeline-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.timeline-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.55;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--dark);
+  border-top: 1px solid rgba(245,240,232,0.06);
+  padding: 80px 60px;
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.footer-brand {
+  max-width: 400px;
+}
+.footer-brand-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+.footer-brand-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(245,240,232,0.4);
+  line-height: 1.6;
+}
+.footer-col h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.3);
+  margin-bottom: 16px;
+}
+.footer-col p, .footer-col a {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(245,240,232,0.5);
+  line-height: 1.8;
+  text-decoration: none;
+  display: block;
+}
+.footer-col a:hover { color: var(--warm); }
+.footer-bottom {
+  max-width: 1400px;
+  margin: 48px auto 0;
+  padding-top: 28px;
+  border-top: 1px solid rgba(245,240,232,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-bottom p {
+  font-size: 12px;
+  color: rgba(245,240,232,0.25);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .vision { grid-template-columns: 1fr; gap: 40px; }
+  .program-grid { grid-template-columns: 1fr 1fr; }
+  .split { grid-template-columns: 1fr; }
+  .split-image { min-height: 400px; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  .funding-grid { grid-template-columns: 1fr; }
+  .image-pair { grid-template-columns: 1fr 1fr; }
+  .stats-bar { gap: 40px; }
+  #pipeline [style*="grid-template-columns:repeat(3"] { grid-template-columns: 1fr !important; }
+  #pipeline [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+  [style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 768px) {
+  .section, .vision, .program-section, .impact-section, .budget-section, .timeline-section, .footer {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .hero-content { padding: 0 24px 60px; }
+  .program-grid { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .split-content { padding: 48px 24px; }
+  .nav-links { display: none; }
+  .full-image img { height: 300px; }
+  .image-pair { grid-template-columns: 1fr; }
+  .image-pair img { height: 280px; }
+  .footer-inner { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">MAX CNC</div>
+  <ul class="nav-links">
+    <li><a href="#vision">Vision</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="HEROaerialfinal.png" alt="Aerial render of MAX CNC Innovation Campus">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Chicago's South Side</p>
+    <h1 class="hero-title">The Building <em>Factory</em></h1>
+    <p class="hero-sub">A mixed-use innovation campus combining CNC fabrication, a design gallery, urban greenhouse, and café — transforming a vacant corner lot into a neighborhood anchor that builds homes, community, and culture.</p>
+    <p class="hero-address">7100 S Cottage Grove Ave · Grand Crossing · Chicago, IL 60619</p>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section class="vision" id="vision">
+  <div class="vision-text reveal">
+    <p class="section-tag">The Vision</p>
+    <h2 class="section-heading">Not a factory.<br>A neighborhood asset that happens to <em style="font-family:'DM Serif Display',serif;color:var(--warm-light)">make things.</em></h2>
+    <p class="section-body">7100 S Cottage Grove is a half-acre triangular corner lot on Chicago's South Side. Today it sits empty. The plan is to transform it into a working campus that builds things — homes, furniture, art, food — and puts those things back into the community that surrounds it.</p>
+  </div>
+  <div class="vision-text reveal" style="max-width:500px">
+    <p class="section-body" style="border-left:2px solid var(--warm);padding-left:24px;margin-bottom:28px">The MAX CNC Innovation Campus is a mixed-use production and community facility anchored by a prefabricated housing workshop. It combines artisanal manufacturing, a design gallery, an urban greenhouse, and a café into a single site.</p>
+    <p class="hero-address" style="opacity:1;animation:none">0.5 acres · Two Quonset Structures · Five Program Zones</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat reveal">
+    <div class="stat-number">0.5</div>
+    <div class="stat-label">Acres</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-number">2</div>
+    <div class="stat-label">Quonset Structures</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-number">5</div>
+    <div class="stat-label">Program Zones</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-number">60%</div>
+    <div class="stat-label">Faster Construction</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-number">30–40%</div>
+    <div class="stat-label">Less Waste</div>
+  </div>
+</div>
+
+<!-- PROGRAM -->
+<section class="program-section" id="program">
+  <div class="program-header">
+    <p class="section-tag" style="color:var(--green)">The Program</p>
+    <h2 class="section-heading" style="color:var(--text)">Five zones. One campus.</h2>
+    <p class="section-body" style="color:var(--text-light);max-width:660px">Two angled Quonset structures follow the lot's triangular geometry, framing a central courtyard. Glass curtain wall facades face the street, giving the campus a contemporary, inviting presence on Cottage Grove.</p>
+  </div>
+  <div class="program-grid" style="grid-template-columns:repeat(2,1fr)">
+    <div class="program-card reveal">
+      <img src="02workshopinterior.png" alt="Workshop interior">
+      <div class="program-card-overlay">
+        <span class="program-card-num">01</span>
+        <h3 class="program-card-title">Workspace</h3>
+        <p class="program-card-desc">45' × 80' × 30' climate-controlled fabrication facility. CNC-cut structural panels, prefab housing assembly, 3D printing, and workforce training.</p>
+      </div>
+    </div>
+    <div class="program-card reveal">
+      <img src="04cafestudents.png" alt="Café interior">
+      <div class="program-card-overlay">
+        <span class="program-card-num">02</span>
+        <h3 class="program-card-title">Café</h3>
+        <p class="program-card-desc">Street-facing café serving the Cottage Grove corridor. A daily revenue anchor drawing foot traffic and activating the campus beyond production hours.</p>
+      </div>
+    </div>
+    <div class="program-card reveal">
+      <img src="07greenhouse.png" alt="Greenhouse interior">
+      <div class="program-card-overlay">
+        <span class="program-card-num">03</span>
+        <h3 class="program-card-title">Greenhouse</h3>
+        <p class="program-card-desc">Urban agriculture producing food for the café and community. Educational programming space addressing food access gaps in Grand Crossing.</p>
+      </div>
+    </div>
+    <div class="program-card reveal">
+      <img src="05courtyard.png" alt="Courtyard">
+      <div class="program-card-overlay">
+        <span class="program-card-num">04</span>
+        <h3 class="program-card-title">Courtyard</h3>
+        <p class="program-card-desc">The heart of the campus. An open, programmable gathering space for community events, outdoor exhibitions, pop-up markets, and informal use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT: PREFAB — HISTORY -->
+<div class="split">
+  <div class="split-image">
+    <img src="16cncpanelsloading.png" alt="CNC panels being loaded for delivery">
+  </div>
+  <div class="split-content bg-dark reveal">
+    <p class="section-tag">Why Prefab</p>
+    <h2 class="section-heading" style="font-size:clamp(28px,3.5vw,44px)">90 years of disinvestment. A new way to build back.</h2>
+    <p class="section-body">The disparities visible in Chicago's housing market today are the result of decades of structured exclusion and uneven access to capital. The disinvestment on South and West Sides still tells the story — unequal wealth distribution, unequal ownership. The question driving this project: <em style="color:var(--warm-light)">how can we create scalable, adaptable housing in Black communities?</em></p>
+    <ul class="split-list">
+      <li>Regular home construction averages $162/sf — prohibitively expensive at scale</li>
+      <li>Manufactured prefab homes average $84/sf — nearly half the cost</li>
+      <li>Cut construction time by up to 60%, reduce waste by 30–40%</li>
+      <li>Build year-round in a controlled factory environment regardless of weather</li>
+      <li>Feeds directly into City Lots for Working Families ($1 lot program)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- IMAGE PAIR -->
+<div class="image-pair">
+  <img src="18deliveryassembly.png" alt="Panel delivery and on-site assembly">
+  <img src="10familynewhome.png" alt="Family in front of new prefab home">
+</div>
+
+<!-- HOUSING PRODUCT -->
+<div style="background:#1a1714;padding:120px 60px">
+  <div style="max-width:1400px;margin:0 auto">
+    <p class="section-tag reveal">The Housing Product</p>
+    <h2 class="section-heading reveal" style="max-width:700px">Wood + SIP hybrid. Volumetric assembly. Design-forward homes.</h2>
+    <p class="section-body reveal" style="max-width:700px;margin-bottom:60px">After evaluating concrete, steel, CLT, and ICF systems, the project selected a wood framing and Structural Insulated Panel (SIP) hybrid — the best combination of lower cost, faster construction, scalability, and transport compatibility for Chicago's South and West Side context.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px" class="reveal">
+      <div style="border-top:2px solid var(--warm);padding-top:24px">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px">Assembly System</h3>
+        <p style="font-size:15px;font-weight:300;line-height:1.65;color:rgba(245,240,232,0.5)">Volumetric prefabrication — complete room modules built in the workshop, transported to site, and craned into place. Minimal on-site labor, fast mass deployment, and the most cost-effective approach for the target communities.</p>
+      </div>
+      <div style="border-top:2px solid var(--warm);padding-top:24px">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px">Unit Design</h3>
+        <p style="font-size:15px;font-weight:300;line-height:1.65;color:rgba(245,240,232,0.5)">Double-stacked units (Tier 1 preferred): ground floor with living area and bedroom, first floor with studio/flex space, second bedroom, and balcony. Solar analysis confirms optimal orientation for year-round daylighting.</p>
+      </div>
+      <div style="border-top:2px solid var(--warm);padding-top:24px">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px">Material Logic</h3>
+        <p style="font-size:15px;font-weight:300;line-height:1.65;color:rgba(245,240,232,0.5)">SIPs deliver excellent thermal performance and fast construction speed. Wood framing is renewable, low-cost, and familiar to local trades. The hybrid system keeps per-unit costs at manufactured-home levels while delivering architect-designed quality.</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:40px" class="reveal">
+      <div style="background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:4px;padding:24px;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--warm-light)">$162</div>
+        <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(245,240,232,0.35);margin-top:4px">per sf — regular home</div>
+      </div>
+      <div style="background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:4px;padding:24px;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--warm-light)">$84</div>
+        <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(245,240,232,0.35);margin-top:4px">per sf — manufactured prefab</div>
+      </div>
+      <div style="background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:4px;padding:24px;text-align:center">
+        <div style="font-family:'DM Serif Display',serif;font-size:36px;color:var(--warm-light)">48%</div>
+        <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(245,240,232,0.35);margin-top:4px">cost reduction per unit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED: TITOBI GALLERY -->
+<div style="background:var(--dark);padding:0">
+  <div style="max-width:1400px;margin:0 auto;padding:100px 60px 0">
+    <p class="section-tag reveal">Norman Teague &amp; Titobi</p>
+    <h2 class="section-heading reveal" style="max-width:700px">Design rooted in community</h2>
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:40px 60px 0">
+    <img src="20gallerytitobi.png" alt="Titobi gallery exhibition" class="reveal" style="width:100%;height:auto;display:block;border-radius:4px">
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:32px 60px 100px">
+    <p class="section-body reveal" style="max-width:700px">Norman Teague (MFA, School of the Art Institute of Chicago) is a Professor of Industrial Design at UIC and a design/build practitioner whose work is in the permanent collections of MoMA, LACMA, the Smithsonian National Museum of African American History and Culture, and the Art Institute of Chicago. He served as a consultant on the Obama Presidential Center design team and co-founded the Design Apprenticeship Program at the University of Chicago Arts Incubator. Through Titobi — co-founded with architect Max Davis — the gallery showcases furniture and objects produced on-site alongside rotating exhibitions from South and West Side artists.</p>
+  </div>
+</div>
+
+<!-- FEATURED: COMMUNITY EVENT -->
+<div style="background:#1a1714;padding:0">
+  <div style="max-width:1400px;margin:0 auto;padding:100px 60px 0">
+    <p class="section-tag reveal">Community Anchor</p>
+    <h2 class="section-heading reveal" style="max-width:600px">A gathering place for the South Side</h2>
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:40px 60px 0">
+    <img src="14communityevent.png" alt="Community gathering at the campus courtyard" class="reveal" style="width:100%;height:auto;display:block;border-radius:4px">
+  </div>
+  <div style="max-width:1400px;margin:0 auto;padding:32px 60px 100px">
+    <p class="section-body reveal" style="max-width:700px">The courtyard and campus host community events, outdoor exhibitions, pop-up markets, and informal gathering — activating a corner that has sat vacant for years. Solar panels on both Quonset roofs reduce operating costs and qualify for Chicago PACE financing and federal tax credits.</p>
+  </div>
+</div>
+
+<!-- SPLIT: THE PEOPLE -->
+<div class="split">
+  <div class="split-content bg-dark reveal">
+    <p class="section-tag">The Partner Network</p>
+    <h2 class="section-heading" style="font-size:clamp(28px,3.5vw,44px)">Practitioners, not consultants</h2>
+    <p class="section-body">The campus is backed by a network of designer-educators with institutional credentials and deep Chicago community roots.</p>
+    <ul class="split-list">
+      <li><strong style="color:var(--cream)">Max Davis</strong> (Cornell) — Architect, CNC machinist, digital fabrication specialist. Founder of MAX CNC and owner of the 7100 S Cottage Grove site.</li>
+      <li><strong style="color:var(--cream)">Norman Teague</strong> (MFA, SAIC) — Professor of Industrial Design at UIC. Work in the permanent collections of MoMA, LACMA, the Smithsonian, and the Art Institute of Chicago. Obama Presidential Center design consultant.</li>
+      <li><strong style="color:var(--cream)">Ben Stagl</strong> (Faculty, SAIC) — Sculptor and fabricator. Permanent 450-foot artwork at O'Hare Terminal 5, grand staircase at Uber's Chicago HQ. Co-founder of Printwire with Max Davis.</li>
+      <li><strong style="color:var(--cream)">Tim Nicholson</strong> (Professor, UChicago) — Already ran a completed student workshop producing publicly exhibited sculpture at the National Museum of Mexican Art.</li>
+      <li><strong style="color:var(--cream)">Doug Kenney</strong> (FutureGrow) — Former Director of Community Engagement at Gary Comer Youth Center. Managing stakeholder development and the CPS workforce pipeline.</li>
+    </ul>
+  </div>
+  <div class="split-image">
+    <img src="06gallery.png" alt="Gallery interior with architectural model">
+  </div>
+</div>
+
+<!-- WORKFORCE PIPELINE -->
+<div style="background:var(--dark);padding:140px 60px" id="pipeline">
+  <div style="max-width:1400px;margin:0 auto">
+    <p class="section-tag reveal">Workforce Pipeline</p>
+    <h2 class="section-heading reveal" style="max-width:700px">From classroom to fabrication floor</h2>
+    <p class="section-body reveal" style="max-width:700px;margin-bottom:60px">Through a partnership with FutureGrow and Chicago Public Schools, the campus connects CPS students to a professional design and fabrication studio ecosystem — with paid internships, team-based challenges, and a pathway toward a formal CTE endorsement in Design, Fabrication, and Community Media.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:60px" class="reveal">
+      <div style="border-top:2px solid var(--warm);padding-top:24px">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px">Already Proven</h3>
+        <p style="font-size:15px;font-weight:300;line-height:1.65;color:rgba(245,240,232,0.5)">In 2024, high school students worked with Tim Nicholson of UChicago to design original sculptures using 3D modeling software. Designs were 3D printed at the studio. Max Davis and the team taught metal casting. Students poured their own work in metal. The finished sculptures were exhibited publicly at the National Museum of Mexican Art. This model is directly replicable through CPS co-op and capstone placements.</p>
+      </div>
+      <div style="border-top:2px solid var(--warm);padding-top:24px">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--cream);margin-bottom:12px">The Entrepreneurial Track</h3>
+        <p style="font-size:15px;font-weight:300;line-height:1.65;color:rgba(245,240,232,0.5)">Students who learn 3D design and fabrication can immediately produce original products: collectible figures, functional objects, limited-edition art pieces. They are not just building skills — they are creating product lines with real market value. The program integrates design, fabrication, marketing, and sales into a single pipeline connecting to CPS Business and Entrepreneurship CTE programming.</p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(245,240,232,0.3);margin-bottom:20px">Target CPS Partner Schools</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <div style="background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:4px;padding:28px">
+          <h4 style="font-size:16px;font-weight:500;color:var(--cream);margin-bottom:4px">Roberto Clemente Academy</h4>
+          <p style="font-size:13px;color:var(--warm);margin-bottom:10px">CTE: Broadcast Technology</p>
+          <p style="font-size:13px;font-weight:300;line-height:1.55;color:rgba(245,240,232,0.4)">Wall-to-wall IB school. Norman Teague has existing relationships from his time as an instructor. Primary target for creative media co-op track.</p>
+        </div>
+        <div style="background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:4px;padding:28px">
+          <h4 style="font-size:16px;font-weight:500;color:var(--cream);margin-bottom:4px">Prosser Career Academy</h4>
+          <p style="font-size:13px;color:var(--warm);margin-bottom:10px">CTE: Architecture, Manufacturing, Digital Media</p>
+          <p style="font-size:13px;font-weight:300;line-height:1.55;color:rgba(245,240,232,0.4)">Nine CTE pathways with on-site fabrication lab and machine shop. Primary target for fabrication and design co-op placements.</p>
+        </div>
+        <div style="background:rgba(245,240,232,0.03);border:1px solid rgba(245,240,232,0.06);border-radius:4px;padding:28px">
+          <h4 style="font-size:16px;font-weight:500;color:var(--cream);margin-bottom:4px">North-Grand High School</h4>
+          <p style="font-size:13px;color:var(--warm);margin-bottom:10px">CTE: PLTW Pre-Engineering</p>
+          <p style="font-size:13px;font-weight:300;line-height:1.55;color:rgba(245,240,232,0.4)">Early College STEAM designation with Project Lead the Way curriculum. Adjacent to Mass Portal, a large-format 3D printing company with existing CPS ties.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT -->
+<section class="impact-section" id="impact">
+  <div class="section" style="padding-left:0;padding-right:0">
+    <p class="section-tag reveal">Community Impact</p>
+    <h2 class="section-heading reveal">A catalyst for the<br>Cottage Grove corridor</h2>
+    <div class="impact-grid">
+      <div class="impact-item reveal">
+        <h3 class="impact-title">Jobs</h3>
+        <p class="impact-desc">Employment in fabrication, construction, food service, and design — prioritizing South Side residents and providing workforce training pathways.</p>
+      </div>
+      <div class="impact-item reveal">
+        <h3 class="impact-title">Housing</h3>
+        <p class="impact-desc">Prefabricated panels and modules produced on-site support affordable homebuilding across Chicago's underinvested neighborhoods.</p>
+      </div>
+      <div class="impact-item reveal">
+        <h3 class="impact-title">Workforce Pipeline</h3>
+        <p class="impact-desc">CPS student internships, team-based challenges, and a CTE pathway in design, fabrication, and community media — connecting classrooms to professional studio practice.</p>
+      </div>
+      <div class="impact-item reveal">
+        <h3 class="impact-title">Arts & Culture</h3>
+        <p class="impact-desc">A permanent exhibition and programming space for Chicago designers and artists, with a focus on makers from the South and West Sides.</p>
+      </div>
+      <div class="impact-item reveal">
+        <h3 class="impact-title">Food Access</h3>
+        <p class="impact-desc">The greenhouse addresses food access gaps in Grand Crossing and surrounding neighborhoods with limited fresh produce retail.</p>
+      </div>
+      <div class="impact-item reveal">
+        <h3 class="impact-title">Anchor Effect</h3>
+        <p class="impact-desc">A functioning, active campus on this corner catalyzes investment and activity along the entire Cottage Grove corridor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET & FUNDING -->
+<section class="budget-section" id="budget">
+  <div style="max-width:1400px;margin:0 auto">
+    <p class="section-tag reveal">Budget Framework</p>
+    <h2 class="section-heading reveal">$1.3M project budget</h2>
+    <p class="section-body reveal">Full campus buildout including two Quonset structures, CNC and fabrication equipment, café kitchen, greenhouse systems, solar installation, and all site work. Steel prices are elevated due to 2025–2026 tariffs; final bids may vary.</p>
+
+    <div class="budget-table-wrap reveal">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th style="text-align:right">Estimated Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Site preparation & foundation (both structures)</td><td>$95K – $120K</td></tr>
+          <tr><td>Quonset Structure 1 — Workspace (kit + erection)</td><td>$125K – $155K</td></tr>
+          <tr><td>Quonset Structure 2 — Gallery / Greenhouse / Café</td><td>$125K – $155K</td></tr>
+          <tr><td>Insulation & weatherproofing (both structures)</td><td>$45K – $60K</td></tr>
+          <tr><td>Interior buildout — Workspace (electrical, HVAC, concrete)</td><td>$100K – $135K</td></tr>
+          <tr><td>Interior buildout — Gallery / Café / Greenhouse</td><td>$120K – $160K</td></tr>
+          <tr><td>CNC & fabrication equipment</td><td>$150K – $190K</td></tr>
+          <tr><td>Café kitchen equipment & FF&E</td><td>$55K – $75K</td></tr>
+          <tr><td>Greenhouse growing systems & climate control</td><td>$35K – $50K</td></tr>
+          <tr><td>Solar PV installation (both roofs)</td><td>$40K – $55K</td></tr>
+          <tr><td>Courtyard, landscaping & site furnishings</td><td>$30K – $40K</td></tr>
+          <tr><td>Parking lot & site utilities</td><td>$20K – $30K</td></tr>
+          <tr><td>Soft costs (architecture, engineering, permits)</td><td>$70K – $90K</td></tr>
+          <tr><td>Contingency (10%)</td><td>$110K – $140K</td></tr>
+          <tr class="total-row"><td>Total Estimated</td><td>~$1.3M</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:80px">
+      <p class="section-tag reveal">Funding Strategy</p>
+      <h2 class="section-heading reveal" style="font-size:clamp(28px,3.5vw,44px)">~$1.3M potential stack</h2>
+      <p class="section-body reveal" style="margin-bottom:8px">Located in the 87th/Cottage Grove TIF District — qualifying for multiple stacked public funding sources with minimal owner capital required.</p>
+    </div>
+
+    <div class="funding-grid reveal">
+      <div class="funding-card">
+        <div class="funding-card-amount">$250K</div>
+        <div class="funding-card-name">Neighborhood Opportunity Fund</div>
+        <div class="funding-card-desc">75% of eligible costs. Covers new construction, facade, electrical, HVAC, plumbing. Deadline: May 15, 2026.</div>
+      </div>
+      <div class="funding-card">
+        <div class="funding-card-amount">$250K</div>
+        <div class="funding-card-name">Small Business Improvement Fund</div>
+        <div class="funding-card-desc">Reimbursement grant for commercial/industrial properties in TIF districts. Opens April 2026.</div>
+      </div>
+      <div class="funding-card">
+        <div class="funding-card-amount">$250K</div>
+        <div class="funding-card-name">Community Development Grant</div>
+        <div class="funding-card-desc">Light manufacturing + commercial projects. Applications due August 14, 2026.</div>
+      </div>
+      <div class="funding-card">
+        <div class="funding-card-amount">$200K</div>
+        <div class="funding-card-name">Greenwood Archer Capital (CDFI)</div>
+        <div class="funding-card-desc">100% financing for commercial real estate on South/West Side. No down payment required.</div>
+      </div>
+      <div class="funding-card">
+        <div class="funding-card-amount">$50K</div>
+        <div class="funding-card-name">Chicago PACE</div>
+        <div class="funding-card-desc">100% financing for solar PV and energy efficiency systems on both Quonset roofs.</div>
+      </div>
+      <div class="funding-card">
+        <div class="funding-card-amount">$300K</div>
+        <div class="funding-card-name">Owner Equity / MAX CNC</div>
+        <div class="funding-card-desc">Existing equipment, in-kind fabrication labor, and capital contribution from Max Davis Group.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIGHT VIEW -->
+<div class="full-image">
+  <img src="08night.png" alt="Night render of the campus">
+  <div class="full-image-overlay"></div>
+  <div class="full-image-caption">Night view — Glass curtain walls activate the Cottage Grove corridor after dark</div>
+</div>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div style="max-width:1400px;margin:0 auto">
+    <p class="section-tag" style="color:var(--green)">Next Steps</p>
+    <h2 class="section-heading" style="color:var(--text)">Path to groundbreaking</h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Now — April 2026</div>
+      <div class="timeline-title">Verify NOF corridor eligibility</div>
+      <div class="timeline-desc">Confirm 7100 S Cottage Grove is on an eligible Neighborhood Opportunity Fund corridor.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">April 2026</div>
+      <div class="timeline-title">Get construction bids</div>
+      <div class="timeline-desc">1–2 Quonset manufacturers + a local general contractor for the two-structure campus.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">April 2026</div>
+      <div class="timeline-title">Submit SBIF application</div>
+      <div class="timeline-desc">Apply during the April 2026 window for up to $250K reimbursement grant.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">April – May 2026</div>
+      <div class="timeline-title">Formalize budget & business plan</div>
+      <div class="timeline-desc">Line-item budget and 5-year projections for café, fabrication, and gallery revenue.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">May 15, 2026</div>
+      <div class="timeline-title">Submit NOF application</div>
+      <div class="timeline-desc">Primary funding application — up to $250K covering 75% of eligible construction costs.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Summer 2026</div>
+      <div class="timeline-title">Design development</div>
+      <div class="timeline-desc">Move from renders to construction documents. New sheet list, updated code compliance, MEP design.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING AERIAL -->
+<div class="full-image">
+  <img src="13goldenhouraerial.png" alt="Golden hour aerial of the completed campus" style="height:450px">
+  <div class="full-image-overlay" style="background:linear-gradient(to top, rgba(17,18,19,1) 0%, rgba(17,18,19,0.2) 50%, rgba(17,18,19,0.3) 100%)"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-name">MAX CNC Innovation Campus</div>
+      <p class="footer-brand-desc">A mixed-use production and community facility anchored by a prefabricated housing workshop on Chicago's South Side.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Entities</h4>
+      <p>MAX CNC — Fabrication</p>
+      <p>Max Davis Group — Development</p>
+      <p>Titobi — Furniture Design</p>
+      <p>Printwire — 3D Printing</p>
+      <p>FutureGrow — Workforce Pipeline</p>
+    </div>
+    <div class="footer-col">
+      <h4>Site</h4>
+      <p>7100 S Cottage Grove Ave</p>
+      <p>Chicago, IL 60619</p>
+      <p>Grand Crossing</p>
+      <p>B3-3 Zoning</p>
+    </div>
+    <div class="footer-col">
+      <h4>Architect</h4>
+      <p>Future Firm</p>
+      <p>226 S. Wabash Ave. Ste 500</p>
+      <p>Chicago, IL 60604</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>Document prepared by R2Cube2 for Max Davis · March 2026</p>
+    <p>Project No. 0090</p>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
